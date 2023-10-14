@@ -86,6 +86,7 @@ public:
 #define SATCHEL_WEIGHT -10
 #define TRIPMINE_WEIGHT -10
 #define DEAGLE_WEIGHT 15
+#define USP_WEIGHT 10
 
 // weapon clip/carry ammo capacities
 #define URANIUM_MAX_CARRY 100
@@ -121,6 +122,7 @@ public:
 #define SNARK_MAX_CLIP WEAPON_NOCLIP
 
 #define DEAGLE_MAX_CLIP 7
+#define USP_MAX_CLIP 12
 // the default amount of ammo that comes with each gun when it spawns
 #define GLOCK_DEFAULT_GIVE 17
 #define PYTHON_DEFAULT_GIVE 6
@@ -138,8 +140,8 @@ public:
 #define SNARK_DEFAULT_GIVE 5
 #define HIVEHAND_DEFAULT_GIVE 8
 
-#define DEAGLE_DEFAULT_GIVE 7
-
+#define DEAGLE_DEFAULT_GIVE 20
+#define USP_DEFAULT_GIVE 2
 // The amount of ammo given to a player by an ammo item.
 #define AMMO_URANIUMBOX_GIVE 20
 #define AMMO_GLOCKCLIP_GIVE GLOCK_MAX_CLIP
@@ -525,12 +527,8 @@ private:
 
 enum deagle_e
 {
-	DEAGLE_IDLE1 = 0,
-	DEAGLE_IDLE2,
-	DEAGLE_IDLE3,
-	DEAGLE_IDLE4,
-	DEAGLE_IDLE5,
-	DEAGLE_SHOOT,
+	DEAGLE_IDLE1,
+	DEAGLE_SHOOT1,
 	DEAGLE_SHOOT_EMPTY,
 	DEAGLE_RELOAD,
 	DEAGLE_RELOAD_NOT_EMPTY,
@@ -569,6 +567,50 @@ private:
 	unsigned short m_usFireDeagle;
 	
 };
+
+
+enum usp_e
+{
+	USP_IDLE,
+	USP_SHOOT,
+	USP_SHOOT_EMPTY,
+	USP_RELOAD,
+	USP_RELOAD_NOT_EMPTY,
+	USP_DRAW,
+	USP_HOLSTER,
+	USP_ADD_SILENCER,
+};
+
+class CUsp : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 2; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	void UspFire(float flSpread, float flCycleTime, bool fUseAutoAim);
+	bool Deploy() override;
+	void Reload();
+	void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	int m_iShell;
+
+
+	unsigned short m_usFireUsp;
+};
+
 
 enum crowbar_e
 {
