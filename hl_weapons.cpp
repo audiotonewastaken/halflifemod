@@ -51,6 +51,7 @@ Vector previousorigin;
 
 // HLDM Weapon placeholder entities.
 CGlock g_Glock;
+CUsp g_Usp;
 CDesertEagle g_Deagle;
 CCrowbar g_Crowbar;
 CPython g_Python;
@@ -542,9 +543,12 @@ void HUD_WeaponsPostThink(local_state_s* from, local_state_s* to, usercmd_t* cmd
 		break;
 
 	case WEAPON_DEAGLE:
-		pWeapon = &g_Glock;
+		pWeapon = &g_Deagle;
 		break;
 
+	case WEAPON_USP:
+		pWeapon = &g_Usp;
+		break;
 	case WEAPON_PYTHON:
 		pWeapon = &g_Python;
 		break;
